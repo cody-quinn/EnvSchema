@@ -19,9 +19,14 @@ dependencies {
 }
 
 tasks.withType<Test>().configureEach {
+    environment["UUID"] = "0500eb55-c461-4fca-8971-5012bcfff41b"
     environment["NAME"] = "Johnny Appleseed"
+    environment["AGE"] = "19"
     environment["ETHNICITY"] = "White"
     environment["CREATED_AT"] = "Random datetime"
+    
+    environment["SEXUALITY_ORIENTATION"] = "Homosexual"
+    environment["SEXUALITY_GENDER_NAME"] = "Female"
 
     environment["PERSON_NAME"] = "Bill Gates"
     environment["NAME_PERSON"] = "Steve Jobs"

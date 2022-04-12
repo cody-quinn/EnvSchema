@@ -5,6 +5,7 @@ import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.shouldBe
 import me.codyq.envschema.EnvSchema
 import me.codyq.envschema.tests.schemas.PersonSchema
+import java.util.UUID
 
 class TestSchema : StringSpec({
 
@@ -22,8 +23,8 @@ class TestSchema : StringSpec({
         schema.name shouldBe "Johnny Appleseed"
     }
 
-    "age should be unchanged from the default" {
-        schema.age shouldBe "17"
+    "age should be changed to an integer 19" {
+        schema.age shouldBe 19
     }
 
     "race should be 'White' from environment variable 'ETHNICITY'" {
@@ -40,6 +41,18 @@ class TestSchema : StringSpec({
 
     "name should be 'Steve Jobs' on suffixedSchema" {
         suffixedSchema.name shouldBe "Steve Jobs"
+    }
+
+    "sexuality gender name should be Female" {
+        schema.sexuality.gender.name shouldBe "Female"
+    }
+
+    "sexuality orientation should be Homosexual" {
+        schema.sexuality.orientation shouldBe "Homosexual"
+    }
+
+    "uuid should be '0500eb55-c461-4fca-8971-5012bcfff41b'" {
+        schema.uuid shouldBe UUID.fromString("0500eb55-c461-4fca-8971-5012bcfff41b")
     }
 
 })

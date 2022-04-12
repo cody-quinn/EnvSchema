@@ -2,21 +2,75 @@ package me.codyq.envschema
 
 import me.codyq.envschema.annotations.EnvIgnored
 import me.codyq.envschema.annotations.EnvName
+import me.codyq.envschema.annotations.EnvObject
+import me.codyq.envschema.exceptions.SerializerAlreadyExistsException
+import me.codyq.envschema.serializers.*
 import me.codyq.envschema.util.asSnakeCase
+import java.util.UUID
 
 object EnvSchema {
 
-    fun <T> load(obj: T, prefix: String = "", suffix: String = ""): T {
-        obj!!::class.java.declaredFields
-            .filter { !it.isAnnotationPresent(EnvIgnored::class.java) }
-            .forEach {
-                val envName = it.getAnnotation(EnvName::class.java)?.value ?: it.name.asSnakeCase()
-                val envValue = System.getenv(prefix + envName + suffix) ?: return@forEach
+    private val envSerializers = mutableMapOf<Class<*>, EnvSerializer<*>>(
+        Boolean::class.java to BooleanEnvSerializer,
+        Byte::class.java to ByteEnvSerializer,
+        Char::class.java to CharEnvSerializer,
+        Double::class.java to DoubleEnvSerializer,
+        Float::class.java to FloatEnvSerializer,
+        Int::class.java to IntEnvSerializer,
+        Long::class.java to LongEnvSerializer,
+        Short::class.java to ShortEnvSerializer,
+        String::class.java to StringEnvSerializer,
+        UUID::class.java to UUIDEnvSerializer,
+    )
 
-                it.isAccessible = true
-                it.set(obj, envValue)
+    fun <T> load(obj: T, prefix: String = "", suffix: String = ""): T {
+        val clazz = obj!!::class.java
+
+        if (!clazz.isAnnotationPresent(EnvObject::class.java)) {
+            return obj
+        }
+
+        val fields = clazz.declaredFields
+
+        for (field in fields) {
+            if (field.isAnnotationPresent(EnvIgnored::class.java)) {
+                continue
             }
+
+            val envName = field.getAnnotation(EnvName::class.java)?.value ?: field.name.asSnakeCase()
+
+            field.isAccessible = true
+
+            if (field.get(obj)::class.java.isAnnotationPresent(EnvObject::class.java)) {
+                load(field.get(obj), prefix = "${prefix}${envName}_", suffix)
+                continue
+            }
+
+            val envValue = System.getenv(prefix + envName + suffix) ?: continue
+
+            val serializer = envSerializers[field.type]
+
+            if (serializer == null) {
+                println("Serializer for type ${field.type} not found.")
+                continue
+            }
+
+            val resultingValue = serializer.serialize(envValue)
+            field.set(obj, resultingValue)
+        }
+
         return obj
+    }
+
+    fun <T> registerSerializer(clazz: Class<T>, serializer: EnvSerializer<T>) {
+        if (envSerializers.containsKey(clazz)) {
+            throw SerializerAlreadyExistsException(clazz)
+        }
+        envSerializers[clazz] = serializer
+    }
+
+    fun <T> unregisterSerializer(clazz: Class<T>) {
+        envSerializers.remove(clazz)
     }
 
 }
