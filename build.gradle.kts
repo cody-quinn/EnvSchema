@@ -21,5 +21,8 @@ tasks.withType<Test>().configureEach {
     environment["ETHNICITY"] = "White"
     environment["CREATED_AT"] = "Random datetime"
 
+    environment["PERSON_NAME"] = "Bill Gates"
+    environment["NAME_PERSON"] = "Steve Jobs"
+
     useJUnitPlatform()
 }

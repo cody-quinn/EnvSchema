@@ -6,12 +6,12 @@ import me.codyq.envschema.util.asSnakeCase
 
 object EnvSchema {
 
-    fun <T> load(obj: T): T {
+    fun <T> load(obj: T, prefix: String = "", suffix: String = ""): T {
         obj!!::class.java.declaredFields
             .filter { !it.isAnnotationPresent(EnvIgnored::class.java) }
             .forEach {
                 val envName = it.getAnnotation(EnvName::class.java)?.value ?: it.name.asSnakeCase()
-                val envValue = System.getenv(envName) ?: return@forEach
+                val envValue = System.getenv(prefix + envName + suffix) ?: return@forEach
 
                 it.isAccessible = true
                 it.set(obj, envValue)
