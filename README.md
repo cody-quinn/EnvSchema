@@ -34,6 +34,7 @@ Using the following schema & code as an example
 ```kotlin
 import java.util.UUID
 
+@EnvObject
 data class Person(
     val uuid: UUID,
     val name: String,
