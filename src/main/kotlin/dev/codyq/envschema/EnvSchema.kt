@@ -5,7 +5,6 @@ import dev.codyq.envschema.annotations.EnvName
 import dev.codyq.envschema.annotations.EnvObject
 import dev.codyq.envschema.exceptions.SerializerAlreadyExistsException
 import dev.codyq.envschema.serializers.*
-import me.codyq.envschema.serializers.*
 import dev.codyq.envschema.util.asSnakeCase
 import java.util.UUID
 
