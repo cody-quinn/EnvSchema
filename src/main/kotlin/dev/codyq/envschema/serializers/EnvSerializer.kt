@@ -1,4 +1,4 @@
-package me.codyq.envschema.serializers
+package dev.codyq.envschema.serializers
 
 interface EnvSerializer<T> {
 

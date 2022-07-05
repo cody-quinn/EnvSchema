@@ -19,11 +19,11 @@ An advanced environment variable parsing library for Kotlin.
 
 ```
 repositories {
-    maven("https://jitpack.io")
+    maven("https://repo.codyq.dev/public/maven")
 }
 
 dependencies {
-    implementation("com.github.CatDevz:EnvSchema:<first 10 digits of commit hash>")
+    implementation("dev.codyq:EnvSchema:1.0.1")
 }
 ```
 

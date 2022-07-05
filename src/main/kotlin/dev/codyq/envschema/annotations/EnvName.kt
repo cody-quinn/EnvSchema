@@ -1,4 +1,4 @@
-package me.codyq.envschema.annotations
+package dev.codyq.envschema.annotations
 
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)

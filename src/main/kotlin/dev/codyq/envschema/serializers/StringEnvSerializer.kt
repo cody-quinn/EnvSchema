@@ -1,4 +1,4 @@
-package me.codyq.envschema.serializers
+package dev.codyq.envschema.serializers
 
 object StringEnvSerializer : EnvSerializer<String> {
     override fun serialize(input: String): String = input

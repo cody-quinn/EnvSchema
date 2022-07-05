@@ -1,11 +1,22 @@
-plugins {
-    kotlin("jvm") version "1.6.10"
+import java.net.URI
 
-    `maven-publish`
+val mavenRepoUrl = System.getenv("MAVEN_REPO_URL") ?: "https://repo.codyq.dev/public/maven"
+val mavenUsername = System.getenv("MAVEN_REPO_USERNAME") ?: properties["codyqMavenUsername"] as String?
+val mavenPassword = System.getenv("MAVEN_REPO_PASSWORD") ?: properties["codyqMavenPassword"] as String?
+
+val mavenCredentials: PasswordCredentials.() -> Unit = {
+    username = mavenUsername
+    password = mavenPassword
 }
 
-group = "me.codyq"
-version = "1.0-SNAPSHOT"
+plugins {
+    kotlin("jvm") version "1.6.20"
+    `maven-publish`
+    `java-library`
+}
+
+group = "dev.codyq"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -14,8 +25,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
-
-    testImplementation("io.kotest:kotest-runner-junit5:5.2.3")
+    testImplementation("io.kotest:kotest-runner-junit5:5.3.1")
 }
 
 tasks.withType<Test>().configureEach {
@@ -34,6 +44,11 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -42,6 +57,12 @@ publishing {
             version = project.version.toString()
 
             from(components["kotlin"])
+        }
+    }
+    repositories {
+        maven {
+            url = URI.create(mavenRepoUrl)
+            credentials(mavenCredentials)
         }
     }
 }

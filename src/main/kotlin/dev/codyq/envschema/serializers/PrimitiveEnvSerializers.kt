@@ -1,4 +1,4 @@
-package me.codyq.envschema.serializers
+package dev.codyq.envschema.serializers
 
 object BooleanEnvSerializer : EnvSerializer<Boolean> {
     override fun serialize(input: String): Boolean = input.toBoolean()

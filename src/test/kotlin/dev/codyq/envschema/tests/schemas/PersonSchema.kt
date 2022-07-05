@@ -1,8 +1,8 @@
-package me.codyq.envschema.tests.schemas
+package dev.codyq.envschema.tests.schemas
 
-import me.codyq.envschema.annotations.EnvIgnored
-import me.codyq.envschema.annotations.EnvName
-import me.codyq.envschema.annotations.EnvObject
+import dev.codyq.envschema.annotations.EnvIgnored
+import dev.codyq.envschema.annotations.EnvName
+import dev.codyq.envschema.annotations.EnvObject
 import java.util.UUID
 
 @EnvObject

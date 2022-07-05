@@ -1,11 +1,12 @@
-package me.codyq.envschema
+package dev.codyq.envschema
 
-import me.codyq.envschema.annotations.EnvIgnored
-import me.codyq.envschema.annotations.EnvName
-import me.codyq.envschema.annotations.EnvObject
-import me.codyq.envschema.exceptions.SerializerAlreadyExistsException
+import dev.codyq.envschema.annotations.EnvIgnored
+import dev.codyq.envschema.annotations.EnvName
+import dev.codyq.envschema.annotations.EnvObject
+import dev.codyq.envschema.exceptions.SerializerAlreadyExistsException
+import dev.codyq.envschema.serializers.*
 import me.codyq.envschema.serializers.*
-import me.codyq.envschema.util.asSnakeCase
+import dev.codyq.envschema.util.asSnakeCase
 import java.util.UUID
 
 object EnvSchema {

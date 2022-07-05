@@ -1,10 +1,10 @@
-package me.codyq.envschema.tests
+package dev.codyq.envschema.tests
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.shouldBe
-import me.codyq.envschema.EnvSchema
-import me.codyq.envschema.tests.schemas.PersonSchema
+import dev.codyq.envschema.EnvSchema
+import dev.codyq.envschema.tests.schemas.PersonSchema
 import java.util.UUID
 
 class TestSchema : StringSpec({
